@@ -25,7 +25,7 @@ jobs:
       - name: Run security check
         id: run_check
         run: |
-          python check_exported.py InsecureBankv2/app/src/main/AndroidManifest.xml > findings.txt
+          python check_exported.py InsecureBankv2/app/src/main/AndroidManifest.xml
 
       # Step 4: Compare with baseline
       - name: Compare with baseline
