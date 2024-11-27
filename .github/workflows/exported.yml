@@ -53,7 +53,6 @@ jobs:
 
       - name: Create GitHub Issue
         if: ${{ env.findings_exist == 'true' }}
-        uses: peter-evans/create-issue@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.prepare_issue.outputs.title }}
