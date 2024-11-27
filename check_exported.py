@@ -29,7 +29,6 @@ def check_exported_components(manifest_path):
         name = component.get(namespace + 'name')
         if name.startswith('.'):
             name = package + name  # Prefix package name for relative component names
-        print(f"Exported {component_type}: {name}")
         with open(scan_file, 'a+') as file:
             file.write(f"Exported {component_type}: {name}\r\n")
 
@@ -44,7 +43,7 @@ def check_exported_components(manifest_path):
             if is_exported(component):
                 log_component(component_type, component)
 
-    print("\r\n\r\n")
+
     baseline(base_file, scan_file)
 
 def baseline(base_file, scan_file):
@@ -55,8 +54,7 @@ def baseline(base_file, scan_file):
 
     for line1 in file1_lines:
         if line1 not in file2_lines:
-            print("\r\n")
-            print(f"\033[91mNew component added:\r\n{line1}\033[0m")
+            print(f"\033[91mNew component added:{line1}\033[0m")
 
 if len(sys.argv) == 2:
     manifest_path = sys.argv[1]
