@@ -47,6 +47,10 @@
             android:label="@string/title_activity_do_login" >
         </activity>
         <activity
+            android:name=".SecretActivity"
+            android:label="@string/title_activity_do_login" >
+        </activity>
+        <activity
             android:name=".PostLogin"
             android:exported="true"
             android:label="@string/title_activity_post_login" >
