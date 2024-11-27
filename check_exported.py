@@ -7,7 +7,7 @@ def check_exported_components(manifest_path):
     root = tree.getroot()
     package = root.attrib.get('package')
     namespace = '{http://schemas.android.com/apk/res/android}'
-    base_file = 'baseline.txt'
+    base_file = '.security/baseline.txt'
     scan_file = 'scan.txt'
     open(scan_file, 'a').close()
 
