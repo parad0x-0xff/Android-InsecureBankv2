@@ -24,10 +24,22 @@ jobs:
       # Step 3: Run the security check
       - name: Run security check
         id: run_check
-        run: |
-          ls ./InsecureBankv2/app/src/main/AndroidManifest.xml
-          python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml
-
+        run: |  
+          python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml |tee findings.txt
+          const severity = INFO
+          const title = "A new compononet is exported"
+          const description = cat findings.txt
+          if [ ! -s scan.txt ]; then
+            echo "No issues found"
+          else
+            await github.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `${finding}`,
+                body: `### New Finding\n${description}\n\n### Severity\n${severity}`,
+                labels: ["security", severity.toLowerCase()],
+              });
+          
       # Step 4: Compare with baseline
       - name: Compare with baseline
         id: compare
