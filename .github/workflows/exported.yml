@@ -26,20 +26,41 @@ jobs:
         id: run_check
         run: |  
           python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml |tee findings.txt
-          severity = "INFO"
-          title = "A new compononet is exported"
-          description = cat findings.txt
-          if [ ! -s scan.txt ]; then
-            echo "No issues found"
+      
+      - name: Check if findings.txt is not empty
+        id: check_findings
+        run: |
+          if [ -s findings.txt ]; then
+            echo "findings_exist=true" >> $GITHUB_ENV
           else
-            await github.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: $finding,
-                body: `### New Finding\n $description\n\n### Severity\n $severity,
-                labels: "security"
-              });
-          
+            echo "findings_exist=false" >> $GITHUB_ENV
+
+      - name: Debug Findings Check
+        if: ${{ env.findings_exist == 'true' }}
+        run: echo "The findings.txt file is not empty. Creating an issue."
+
+      - name: Prepare Issue Content
+        if: ${{ env.findings_exist == 'true' }}
+        id: prepare_issue
+        run: |
+          severity="INFO"
+          title="A new component is exported"
+          description=$(cat findings.txt)
+
+          # Save the title and body as output variables
+          echo "title=$title" >> $GITHUB_OUTPUT
+          echo "body=### New Finding\n\n$description\n\n### Severity\n\n$severity" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Issue
+        if: ${{ env.findings_exist == 'true' }}
+        uses: peter-evans/create-issue@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ steps.prepare_issue.outputs.title }}
+          body: ${{ steps.prepare_issue.outputs.body }}
+          labels: |
+            security
+            
       # Step 4: Compare with baseline
       - name: Compare with baseline
         id: compare
