@@ -1,6 +1,5 @@
 import xml.etree.ElementTree as ET
 import sys
-import os
 import difflib
 
 def check_exported_components(manifest_path):
@@ -10,7 +9,6 @@ def check_exported_components(manifest_path):
     namespace = '{http://schemas.android.com/apk/res/android}'
     base_file = 'baseline.txt'
     scan_file = 'scan.txt'
-    os.remove(scan_file)
 
     
     def is_exported(component):
