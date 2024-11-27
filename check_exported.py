@@ -9,7 +9,7 @@ def check_exported_components(manifest_path):
     namespace = '{http://schemas.android.com/apk/res/android}'
     base_file = 'baseline.txt'
     scan_file = 'scan.txt'
-    open(x, scan_file).close()
+    open(scan_file, 'a').close()
 
     
     def is_exported(component):
