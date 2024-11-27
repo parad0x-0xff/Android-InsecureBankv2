@@ -1,4 +1,4 @@
-name: Exported components
+name: Exported Components Security Check
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch: # Allow manual triggers
 
 jobs:
-  compare-findings:
+  security-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,49 +23,6 @@ jobs:
 
       # Step 3: Run the security check
       - name: Run security check
-        id: run_check
-        run: |  
-          python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml |tee findings.txt
-      
-      - name: Check if findings.txt is not empty
-        id: check_findings
         run: |
-          if [ -s findings.txt ]; then
-            echo "findings_exist=true" >> $GITHUB_ENV
-          else
-            echo "findings_exist=false" >> $GITHUB_ENV
+          python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml
 
-      - name: Debug Findings Check
-        if: ${{ env.findings_exist == 'true' }}
-        run: echo "The findings.txt file is not empty. Creating an issue."
-
-      - name: Prepare Issue Content
-        if: ${{ env.findings_exist == 'true' }}
-        id: prepare_issue
-        run: |
-          severity="INFO"
-          title="A new component is exported"
-          description=$(cat findings.txt)
-
-          # Save the title and body as output variables
-          echo "title=$title" >> $GITHUB_OUTPUT
-          echo "body=### New Finding\n\n$description\n\n### Severity\n\n$severity" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Issue
-        if: ${{ env.findings_exist == 'true' }}
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: ${{ steps.prepare_issue.outputs.title }}
-          body: ${{ steps.prepare_issue.outputs.body }}
-          labels: |
-            security
-            
-      # Step 4: Compare with baseline
-      - name: Compare with baseline
-        id: compare
-        run: |
-          # Ensure baseline exists
-          if [ ! -f .security/baseline.txt ]; then
-            echo "Baseline file not found!"
-            exit 1
-          fi
