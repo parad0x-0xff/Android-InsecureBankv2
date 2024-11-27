@@ -1,0 +1,38 @@
+name: Exported components
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  compare-findings:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      # Step 3: Run the security check
+      - name: Run security check
+        id: run_check
+        run: |
+          python check_exported.py InsecureBankv2/app/src/main/AndroidManifest.xml > findings.txt
+
+      # Step 4: Compare with baseline
+      - name: Compare with baseline
+        id: compare
+        run: |
+          # Ensure baseline exists
+          if [ ! -f .security/baseline.txt ]; then
+            echo "Baseline file not found!"
+            exit 1
+          fi
