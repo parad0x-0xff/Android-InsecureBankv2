@@ -43,4 +43,4 @@ jobs:
         if: steps.run_check.outputs.script_output != ''
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: .security/finding.sarif
+          sarif_file: finding.sarif
