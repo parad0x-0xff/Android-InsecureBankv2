@@ -16,14 +16,13 @@ jobs:
 
     - name: Set up SSH
       run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H 34.229.151.203 >> ~/.ssh/known_hosts
+        echo "$SSH_PRIVATE_KEY" > id_rsa
+        chmod 600 id_rsa
+       
 
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Connect to Server via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@34.229.151.203 -i ~/.ssh_id_rsa 'echo "SSH connection successful!"'
+        ssh -o StrictHostKeyChecking=no ubuntu@34.229.151.203 -i id_rsa 'echo "Hello from GitHub Actions!"'
