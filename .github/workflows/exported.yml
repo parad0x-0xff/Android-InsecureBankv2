@@ -29,6 +29,7 @@ jobs:
             if [[ -z $finding ]]; then 
               echo "No issues found"; 
             else 
+              sed -i '' 's/\"w00t\"/\"$finding\"/g' finding.sarif
               echo "::set-output name=script_output::$finding" 
               echo $finding
               fi
@@ -41,4 +42,4 @@ jobs:
         if: steps.run_check.outputs.script_output != ''
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: findings.sarif
+          sarif_file: .security/finding.sarif
