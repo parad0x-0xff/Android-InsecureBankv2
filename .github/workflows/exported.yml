@@ -24,5 +24,21 @@ jobs:
       # Step 3: Run the security check
       - name: Run security check
         run: |
-          python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml
+            finding=$(python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml)
+            
+            if [[ -z $finding ]]; then 
+              echo "No issues found"; 
+            else 
+              echo "::set-output name=script_output::$finding" 
+              echo $finding
+              fi
+      
+          
+          
 
+      # Step 4: Upload SARIF file to GitHub Security tab
+      - name: Upload SARIF to GitHub Security
+        if: steps.run_check.outputs.script_output != ''
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: findings.sarif
