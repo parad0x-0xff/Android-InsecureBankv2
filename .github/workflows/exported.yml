@@ -41,6 +41,6 @@ jobs:
       # Step 4: Upload SARIF file to GitHub Security tab
       - name: Upload SARIF to GitHub Security
         if: steps.run_check.outputs.script_output != ''
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: finding.sarif
