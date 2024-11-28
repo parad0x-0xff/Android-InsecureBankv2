@@ -29,7 +29,7 @@
         {
           "ruleId": "EXPORT-001",
           "message": {
-            "text": "w00t"
+            "text": "$finding"
           },
           "locations": [
             {
