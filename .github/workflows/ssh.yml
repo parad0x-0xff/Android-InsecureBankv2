@@ -1,0 +1,29 @@
+name: SSH Connection Example
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  ssh-connect:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H <remote_host> >> ~/.ssh/known_hosts
+
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Connect to Server via SSH
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@34.229.151.203 'echo "SSH connection successful!"'
