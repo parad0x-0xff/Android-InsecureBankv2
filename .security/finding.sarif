@@ -1,0 +1,51 @@
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Exported Components Check",
+          "version": "1.0",
+          "informationUri": "https://github.com/parad0x-0xff/Android-InsecureBankv2/blob/master/check_exported.py",
+          "rules": [
+            {
+              "id": "EXPORT-001",
+              "name": "Exported Component",
+              "shortDescription": {
+                "text": "Exported components may expose sensitive functionality."
+              },
+              "fullDescription": {
+                "text": "Exported components can be accessed by other applications, potentially leading to security vulnerabilities."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://mas.owasp.org/MASTG/tests/android/MASVS-PLATFORM/MASTG-TEST-0029/"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "EXPORT-001",
+          "message": {
+            "text": "w00t"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "AndroidManifest.xml"
+                },
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 5
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
