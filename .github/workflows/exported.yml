@@ -30,7 +30,7 @@ jobs:
               echo "No issues found"; 
             else 
               pwd
-              sed -i '' 's/\"w00t\"/\"$finding\"/g' finding.sarif
+              sed -i 's/\"w00t\"/finding/g' finding.sarif
               echo "::set-output name=script_output::$finding" 
               echo $finding
               fi
