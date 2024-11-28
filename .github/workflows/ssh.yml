@@ -16,8 +16,10 @@ jobs:
 
     - name: Set up SSH
       run: |
-        echo "$SSH_PRIVATE_KEY" > id_rsa
-        chmod 600 id_rsa
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 34.229.151.203 >> ~/.ssh/known_hosts
        
 
       env:
