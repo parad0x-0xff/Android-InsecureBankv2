@@ -24,7 +24,12 @@ jobs:
       # Step 3: Run the security check
       - name: Run security check
         run: |
-            python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml
+            finding=$(python check_exported.py ./InsecureBankv2/app/src/main/AndroidManifest.xml)
+            if [[ -z $finding ]]; then 
+              echo "No issues found"; 
+            else 
+              echo $finding
+              fi
 
       
     
