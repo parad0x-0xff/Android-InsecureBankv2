@@ -1,4 +1,4 @@
-name: SSH Connection Example
+name: SSH API scan
 
 on:
   pull_request:
@@ -27,5 +27,5 @@ jobs:
 
     - name: Connect to Server via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@34.229.151.203 -i ~/.ssh/id_rsa 'bash ~/test.sh'
+        ssh -o StrictHostKeyChecking=no ubuntu@34.229.151.203 -i ~/.ssh/id_rsa 'bash ~/device-login.sh'
 
