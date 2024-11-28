@@ -26,4 +26,4 @@ jobs:
 
     - name: Connect to Server via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@34.229.151.203 'echo "SSH connection successful!"'
+        ssh -o StrictHostKeyChecking=no ubuntu@34.229.151.203 -i ~/.ssh_id_rsa 'echo "SSH connection successful!"'
