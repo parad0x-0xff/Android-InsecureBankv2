@@ -29,7 +29,8 @@ jobs:
             if [[ -z $finding ]]; then 
               echo "No issues found"; 
             else 
-              sed -i '' 's/\"w00t\"/\"$finding\"/g' .security/finding.sarif
+              pwd
+              sed -i '' 's/\"w00t\"/\"$finding\"/g' ./.security/finding.sarif
               echo "::set-output name=script_output::$finding" 
               echo $finding
               fi
