@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch: # Allow manual triggers
 
 jobs:
   security-check:
