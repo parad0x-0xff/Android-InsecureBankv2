@@ -1,6 +1,6 @@
 name: mobsfscan sarif
 on:
-  push:
+  pull_request:
     branches: [ master, main ]
 
 jobs:
