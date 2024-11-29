@@ -1,0 +1,30 @@
+name: Insecure Storage
+
+on:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  ssh-connect:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H $HOST_IP >> ~/.ssh/known_hosts
+       
+
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Connect to Server via SSH
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@$HOST_IP -i ~/.ssh/id_rsa 'bash ~/find-secrets.sh'
