@@ -19,7 +19,7 @@ jobs:
         mkdir -p ~/.ssh
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H 34.229.151.203 >> ~/.ssh/known_hosts
+        ssh-keyscan -H $HOST_IP >> ~/.ssh/known_hosts
        
 
       env:
@@ -27,5 +27,5 @@ jobs:
 
     - name: Connect to Server via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@34.229.151.203 -i ~/.ssh/id_rsa 'bash ~/device-login.sh'
+        ssh -o StrictHostKeyChecking=no ubuntu@$HOST_IP -i ~/.ssh/id_rsa 'bash ~/device-login.sh'
 
