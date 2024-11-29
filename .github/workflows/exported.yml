@@ -3,7 +3,7 @@ name: Exported Components Security Check
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   security-check:
